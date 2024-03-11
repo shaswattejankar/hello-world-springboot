@@ -44,16 +44,14 @@ jobs:
     #     REMOTE_USER: ${{ secrets.USERNAME }}
     #     REMOTE_PORT: 22
     #     TARGET: '/home/ubuntu/sbhw/'
-
-    - name: Change directory permissions
-      run: sudo chmod -R 755 /srv/hello_world/
-      
+    
     - name: Sync files to ec2 
       env:
         dest: '${{ secrets.USERNAME }}@${{ secrets.PUBLIC_IP }}:/srv/hello_world/'
       run: |
         echo "${{ secrets.EC2_SSH_KEY }}" >> deploy_key
         chmod 600 ./deploy_key
+        sudo chmod -R 755 /srv/hello_world/
         rsync -charlvzi --delete \
           -e 'ssh -i ./deploy_key -p 22 -o StrictHostKeyChecking=no' \
           --exclude '/deploy_key' \
