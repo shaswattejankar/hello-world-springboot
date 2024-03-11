@@ -11,8 +11,6 @@ name: Java CI @w Mave, CD @w easingthemes/ssh-deploy@main, and restarting the se
 on:
   push:
     branches: [ "main" ]
-    paths-ignore:
-      - '.github/workflows/maven.yml'
 
 jobs:
   build:
