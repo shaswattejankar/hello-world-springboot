@@ -45,23 +45,34 @@ jobs:
     #     REMOTE_PORT: 22
     #     TARGET: '/home/ubuntu/sbhw/'
     
-    - name: Sync files to ec2 
-      env:
-        dest: '${{ secrets.USERNAME }}@${{ secrets.PUBLIC_IP }}:/srv/hello_world/'
-      run: |
-        echo "${{ secrets.EC2_SSH_KEY }}" >> deploy_key
-        chmod 600 ./deploy_key
-        # ssh -i ./deploy_key -p 22 -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.PUBLIC_IP }}
-        scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_KEY }} ./hello-world-springboot ubuntu@${{ secrets.HOST_DNS }}:/home/ubuntu/
-        
-        # rsync -charlvzi --delete \
-        #   -e 'ssh -i ./deploy_key -p 22 -o StrictHostKeyChecking=no' \
-        #   --exclude '/deploy_key' \
-        #   --exclude '/.*/' \
-        #   --exclude '.*' \
-        #   --exclude '/cgi-bin/' \
-        #   --exclude 'README.md' \
-        #   ./ ${{env.dest}}
+    # - name: Sync files to ec2 
+    #   env:
+    #     dest: '${{ secrets.USERNAME }}@${{ secrets.PUBLIC_IP }}:/srv/hello_world/'
+    #   run: |
+    #     echo "${{ secrets.EC2_SSH_KEY }}" >> deploy_key
+    #     chmod 600 ./deploy_key
+    #     ssh -i ./deploy_key -p 22 -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.PUBLIC_IP }}        
+    #     rsync -charlvzi --delete \
+    #       -e 'ssh -i ./deploy_key -p 22 -o StrictHostKeyChecking=no' \
+    #       --exclude '/deploy_key' \
+    #       --exclude '/.*/' \
+    #       --exclude '.*' \
+    #       --exclude '/cgi-bin/' \
+    #       --exclude 'README.md' \
+    #       ./ ${{env.dest}}
+
+    - name: copy files to ec2 instance
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.HOST_DNS }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        port: 22
+        source: 'hello-world-springboot/**'
+        target: '/home/ubuntu/hello-world/'
+        tar_dereference: true
+        rm: true
+        ignore_nonexistent: true
 
     # - name: Executing remote ssh commands using ssh key
     #   uses: appleboy/ssh-action@master
