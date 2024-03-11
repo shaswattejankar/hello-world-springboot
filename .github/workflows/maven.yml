@@ -54,6 +54,7 @@ jobs:
         ssh -i ./deploy_key -p 22 -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.PUBLIC_IP }}
         cd ../../ 
         ls
+        pwd
         
         # rsync -charlvzi --delete \
         #   -e 'ssh -i ./deploy_key -p 22 -o StrictHostKeyChecking=no' \
