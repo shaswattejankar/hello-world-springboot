@@ -51,10 +51,8 @@ jobs:
       run: |
         echo "${{ secrets.EC2_SSH_KEY }}" >> deploy_key
         chmod 600 ./deploy_key
-        ssh -i ./deploy_key -p 22 -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.PUBLIC_IP }}
-        cd ../../ 
-        ls
-        pwd
+        # ssh -i ./deploy_key -p 22 -o StrictHostKeyChecking=no ${{ secrets.USERNAME }}@${{ secrets.PUBLIC_IP }}
+        scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_KEY }} ./hello-world-springboot ubuntu@${{ secrets.HOST_DNS }}:/home/ubuntu/
         
         # rsync -charlvzi --delete \
         #   -e 'ssh -i ./deploy_key -p 22 -o StrictHostKeyChecking=no' \
