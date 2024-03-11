@@ -43,7 +43,7 @@ jobs:
         REMOTE_HOST: ${{ secrets.HOST_DNS }}
         REMOTE_USER: ${{ secrets.USERNAME }}
         REMOTE_PORT: 22
-        TARGET: ${{ secrets.TARGET_DIR }}
+        TARGET: '/home/ubuntu/sbhw/'
 
     # - name: Executing remote ssh commands using ssh key
     #   uses: appleboy/ssh-action@master
