@@ -39,8 +39,10 @@ jobs:
       uses: easingthemes/ssh-deploy@main
       env:
         SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_KEY }}
+        SOURCE: ${{ github.workspace }}
         REMOTE_HOST: ${{ secrets.HOST_DNS }}
         REMOTE_USER: ${{ secrets.USERNAME }}
+        REMOTE_PORT: 80
         TARGET: ${{ secrets.TARGET_DIR }}
 
     # - name: Executing remote ssh commands using ssh key
