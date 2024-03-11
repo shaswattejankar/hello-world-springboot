@@ -72,7 +72,6 @@ jobs:
         target: '/home/ubuntu/hello-world/'
         tar_dereference: true
         rm: true
-        ignore_nonexistent: true
 
     # - name: Executing remote ssh commands using ssh key
     #   uses: appleboy/ssh-action@master
