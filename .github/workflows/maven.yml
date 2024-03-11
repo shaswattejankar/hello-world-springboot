@@ -47,7 +47,7 @@ jobs:
 
     - name: Sync files to ec2 
       env:
-        dest: '${{ secrets.USERNAME }}@${{ PUBLIC_IP }}:/srv/hello_world/'
+        dest: '${{ secrets.USERNAME }}@${{ secrets.PUBLIC_IP }}:/srv/hello_world/'
       run: |
         echo "${{ secrets.EC2_SSH_KEY }}" > deploy_key
         chmod 600 ./deploy_key
